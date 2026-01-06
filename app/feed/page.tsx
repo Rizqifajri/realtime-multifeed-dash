@@ -4,34 +4,26 @@ import { useState } from "react"
 import { useWebSocket } from "@/hooks/use-websocket"
 import { useFeedStore } from "@/store/use-feed-store"
 import { Feed } from "@/lib/types"
-
-// Components
 import { FeedHeader } from "@/components/feed-header"
 import { FeedTabs } from "@/components/feed-tabs"
 import { FeedContainer } from "@/components/feed-container"
 import { EmptyState } from "@/components/empty-state"
 import { LayoutDashboard, Globe, Activity, Database } from "lucide-react"
 
-// Penting: Import useShallow untuk mencegah re-render loop
+// Optimized rerender loop
 import { useShallow } from 'zustand/react/shallow'
 
 export default function FeedPage() {
   const [selectedFeed, setSelectedFeed] = useState<Feed>(Feed.ALL)
   const [searchQuery, setSearchQuery] = useState("")
-
-  // --- ZUSTAND SELECTORS (Optimized) ---
   const addEvent = useFeedStore((state) => state.addEvent)
-
-  // Gunakan useShallow untuk object/array hasil komputasi
   const eventCounts = useFeedStore(
     useShallow((state) => state.getEventCounts())
   )
-
   const filteredEvents = useFeedStore(
     useShallow((state) => state.getFilteredEvents(selectedFeed, searchQuery))
   )
 
-  // Primitive value (number) aman tanpa useShallow
   const totalEvents = useFeedStore((state) => state.events.length)
 
   // --- WEBSOCKET ---
@@ -42,13 +34,10 @@ export default function FeedPage() {
 
   return (
     <div className="flex h-screen overflow-hidden bg-background text-foreground font-sans">
-      
-      {/* Sidebar */}
       <aside className="w-64 border-r border-border bg-card hidden lg:flex flex-col p-6 shrink-0">
         <div className="flex items-center gap-3 mb-10 px-2">
           <span className="text-xl font-bold tracking-tight text-foreground">Dashboard</span>
         </div>
-
         <nav className="space-y-2">
           <NavItem icon={<LayoutDashboard size={18} />} label="Overview" active />
           <NavItem icon={<Globe size={18} />} label="Global Feed" />
@@ -124,8 +113,6 @@ export default function FeedPage() {
   )
 }
 
-// --- Sub Components ---
-
 function NavItem({ icon, label, active = false }: { icon: React.ReactNode, label: string, active?: boolean }) {
   return (
     <div className={`flex items-center gap-3 px-4 py-2.5 rounded-xl cursor-pointer transition-all ${
@@ -142,11 +129,9 @@ function StatCard({ title, value, sub, color }: { title: string, value: number, 
     <div className="bg-card border border-border p-5 rounded-2xl hover:border-primary/50 transition-colors group">
       <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider mb-2">{title}</p>
       <div className="flex items-baseline gap-2">
-        {/* Menggunakan toLocaleString() agar angka ribuan ada komanya (1,000) */}
         <span className={`text-3xl font-bold tracking-tight ${color}`}>{value.toLocaleString()}</span>
         <span className="text-[10px] text-muted-foreground font-medium opacity-70">{sub}</span>
       </div>
-      {/* Decorative Bar */}
       <div className="mt-4 h-1 w-full bg-secondary/50 rounded-full overflow-hidden">
         <div className={`h-full bg-current ${color} opacity-40 w-2/3 group-hover:w-full transition-all duration-700 ease-out`} />
       </div>
