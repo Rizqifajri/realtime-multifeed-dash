@@ -1,4 +1,4 @@
-# Real-Time Market Intelligence Dashboard
+# Real-Time Multifeed Dashboard
 
 ![Dashboard Preview](public/screenshoot.png) 
 A high-performance, resilient real-time multifeed dashboard built with **Next.js** and **WebSockets**. Designed to handle high-frequency data streams with robust error handling, connection resilience, and UI performance optimizations.
