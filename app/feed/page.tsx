@@ -74,8 +74,8 @@ export default function FeedPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <StatCard title="Total Stream" value={totalEvents} sub="Events tracked" color="text-blue-500" />
             <StatCard title="News Feed" value={eventCounts[Feed.NEWS]} sub="Latest updates" color="text-amber-500" />
-            <StatCard title="Market Activity" value={eventCounts[Feed.MARKET]} sub="Transactions" color="text-cyan-500" />
-            <StatCard title="Price Ticks" value={eventCounts[Feed.PRICE]} sub="Volatility" color="text-emerald-500" />
+            <StatCard title="Market Activity Feed" value={eventCounts[Feed.MARKET]} sub="Transactions" color="text-cyan-500" />
+            <StatCard title="Price Movement" value={eventCounts[Feed.PRICE]} sub="Volatility" color="text-emerald-500" />
           </div>
 
           {/* Feed Container */}
