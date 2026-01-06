@@ -55,7 +55,7 @@ export function useWebSocket({
 
       socket.onopen = () => {
         if (!mountedRef.current) return
-        console.log("[WS] Connected")
+        // console.log("[WS] Connected")
         setStatus("connected")
         reconnectDelayRef.current = initialReconnectDelay // Reset backoff
       }
@@ -68,7 +68,7 @@ export function useWebSocket({
              onEventRef.current(data as BaseEvent)
           }
         } catch (err) {
-          console.error("[WS] Parse Error:", err)
+          // console.error("[WS] Parse Error:", err)
         }
       }
 
@@ -78,7 +78,7 @@ export function useWebSocket({
       //check if the socket that is closing is the active socket (handle race condition)
         if (socketRef.current === socket) {
           setStatus("disconnected")
-          console.log(`[WS] Disconnected. Retrying in ${reconnectDelayRef.current}ms`)
+          // console.log(`[WS] Disconnected. Retrying in ${reconnectDelayRef.current}ms`)
 
           reconnectTimeoutRef.current = setTimeout(() => {
             reconnectDelayRef.current = Math.min(reconnectDelayRef.current * 2, maxReconnectDelay)
@@ -88,12 +88,12 @@ export function useWebSocket({
       }
 
       socket.onerror = (e) => {
-        console.error("[WS] Error:", e)
+        // console.error("[WS] Error:", e)
         if (mountedRef.current) setError("WebSocket connection error")
       }
 
     } catch (err) {
-      console.error("[WS] Connection Failed:", err)
+      // console.error("[WS] Connection Failed:", err)
       if (mountedRef.current) {
         setStatus("disconnected")
         setError("Failed to initialize connection")
